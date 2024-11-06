@@ -1,0 +1,42 @@
+<core:FragmentDefinition xmlns="sap.m"
+    xmlns:core="sap.ui.core"
+    xmlns:f="sap.ui.layout.form"
+    xmlns:l="sap.ui.layout"
+    xmlns:mvc="sap.ui.core.mvc" id="assign">
+
+    <Dialog id="assign" title="{i18n>assignDialog}" class="sapUiResponsiveMargin" draggable="true">
+        <content>
+            <HBox class="sapUiResponsiveMargin">
+                <f:SimpleForm id="SimpleFormChange354wideDual" layout="ResponsiveGridLayout" columnsL="2" columnsM="2" columnsXL="2" labelSpanXL="3" labelSpanL="3" labelSpanM="3" labelSpanS="12" emptySpanXL="1" emptySpanL="1" emptySpanM="1">
+                    <f:content>
+                        <core:Title text="{dialogModel>/EmFullName}" />
+
+                        <Label text="{i18n>tarihDialog}" />
+                        <Text text="{dialogModel>/SystemDateStr}" />
+
+                        <Label text="{i18n>saatDialog}" />
+                        <Text text="{dialogModel>/SystemTimeStr}"></Text>
+
+
+
+                        <Label text="{i18n>descDialog}" />
+                        <Text text="{dialogModel>/Description}" />
+
+
+
+                        <core:Title text="{i18n>secondHeaderDialog}" />
+                        <Label text="{i18n>descDialog}" />
+                        <TextArea id="assignDesc" value="{inputCatcher>/mngInput}" maxLength="200"/>
+
+                    </f:content>
+                </f:SimpleForm>
+
+            </HBox>
+        </content>
+
+        <buttons>
+            <Button type="Emphasized" text="{i18n>assignEmployee}" press="onSave" />
+            <Button text="{i18n>cancelButton}" press="onCancel" />
+        </buttons>
+    </Dialog>
+</core:FragmentDefinition>

@@ -1,0 +1,73 @@
+<mvc:View controllerName="com.nagarro.labormanager.controller.View1"
+    xmlns:mvc="sap.ui.core.mvc" displayBlock="true"
+    xmlns:microchart="sap.suite.ui.microchart"
+    xmlns="sap.m"
+    xmlns:core="sap.ui.core"
+    xmlns:f="sap.f"
+    xmlns:svm="sap.ui.comp.smartvariants"
+    xmlns:fb="sap.ui.comp.filterbar"
+    xmlns:layout="sap.ui.layout"
+    xmlns:smart="sap.ui.comp.smarttable"
+    xmlns:sf="sap.ui.comp.smartfilterbar">
+
+    <Page enableScrolling="true">
+        <sf:SmartFilterBar id="smartFilterBar" entitySet="LogSet" liveChange="onFilterChange" enableBasicSearch="true" />
+
+
+        <smart:SmartTable id="logSmartTable" entitySet="LogSet" tableType="Table" useVariantManagement="true" useTablePersonalisation="true" header="Log Data" smartFilterId="smartFilterBar" editTogglable="true" enableAutoBinding="true" exportType="GW" showDetailsButton="true" useExportToExcel="true">
+
+            <Table inset="false" items="{/LogSet}" alternateRowColors="true" updateFinished="_updateTableCounts">
+
+                <columns>
+                    <Column hAlign="Begin" width="auto">
+                        <Text text="{i18n>usnameCol}" />
+                    </Column>
+                    <Column hAlign="Begin" minScreenWidth="Tablet" demandPopin="true">
+                        <Text text="{i18n>descCol}" />
+                    </Column>
+                    <Column hAlign="Begin" minScreenWidth="Tablet" demandPopin="true">
+                        <Text text="{i18n>MngUnameCol}" />
+                    </Column>
+                    <Column hAlign="Begin" minScreenWidth="Tablet" demandPopin="true">
+                        <Text text="{i18n>MngDescCol}" />
+                    </Column>
+                    <Column hAlign="Center" minScreenWidth="Tablet" demandPopin="true">
+                        <Text text="{i18n>date}" />
+                    </Column>
+                    <Column hAlign="Center" minScreenWidth="Tablet" demandPopin="true">
+                        <Text text="{i18n>state}" />
+                    </Column>
+                </columns>
+                <items>
+                    <ColumnListItem vAlign="Middle" type="Inactive" highlight="{parts: [{path: 'State'}, {path: 'SystemDateStr'}], formatter: '.formatter.formatHighlight'}" press="onUnroll">
+                        <cells>
+                            <VBox>
+                                <ObjectIdentifier title="{EmFullName}" />
+                                <Text text="Saat: {path: 'SystemTime', formatter: '.formatter.formatTime'}" />
+                            </VBox>
+                            <VBox>
+                                <Text text="{= ${showFullText} ? ${Description} : ${Description}.substring(0, 25)}" />
+                                <Link text="{= ${showFullText} ? 'Daha az' : 'Daha fazla'}" visible="{path: 'Description', formatter: '.formatter.formatLinkVisibility'}" press="onToggleText"></Link>
+                            </VBox>
+                            <VBox>
+                                <ObjectIdentifier title="{path: 'MngFullName', formatter: '.formatter.formatMngUName'}" />
+                                <Text text="Saat: {path: 'MngUzeit', formatter: '.formatter.formatTime'}" visible="{= ${State} === true }" />
+                            </VBox>
+                            <Text text="{path: 'MngDesc', formatter: '.formatter.formatMngDesc'}" />
+                            <Text text="{path: 'SystemDate', formatter: '.formatter.formatDate'}" />
+                            <core:Icon src="{parts: [{path: 'State'}, {path: 'SystemDateStr'}], formatter: '.formatter.formatIconSource'}" color="{parts: [{path: 'State'}, {path: 'SystemDateStr'}], formatter: '.formatter.formatIconColor'}" size="1rem" alt="State Icon" useIconTooltip="false" />
+                        </cells>
+                    </ColumnListItem>
+                </items>
+            </Table>
+
+        </smart:SmartTable>
+    </Page>
+
+
+
+
+
+
+
+</mvc:View>

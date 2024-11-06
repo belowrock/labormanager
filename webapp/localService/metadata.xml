@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="1.0" xmlns:edmx="http://schemas.microsoft.com/ado/2007/06/edmx" xmlns:m="http://schemas.microsoft.com/ado/2007/08/dataservices/metadata" xmlns:sap="http://www.sap.com/Protocols/SAPData">
+    <edmx:DataServices m:DataServiceVersion="2.0">
+        <Schema Namespace="ZMBIS_SEGW_ACT_SRV" xml:lang="en" sap:schema-version="1" xmlns="http://schemas.microsoft.com/ado/2008/09/edm">
+            <Annotation Term="Core.SchemaVersion" String="1.0.0" xmlns="http://docs.oasis-open.org/odata/ns/edm"/>
+            <EntityType Name="Aktivite" sap:content-version="1">
+                <Key>
+                    <PropertyRef Name="Description"/>
+                </Key>
+                <Property Name="UserName" Type="Edm.String" sap:unicode="false" sap:updatable="false" sap:sortable="false"/>
+                <Property Name="SystemDate" Type="Edm.DateTime" Precision="0" sap:unicode="false" sap:label="Date" sap:updatable="false" sap:sortable="false"/>
+                <Property Name="SystemTime" Type="Edm.Time" Precision="0" sap:unicode="false" sap:updatable="false" sap:sortable="false"/>
+                <Property Name="Description" Type="Edm.String" Nullable="false" sap:unicode="false" sap:updatable="false" sap:sortable="false"/>
+            </EntityType>
+            <EntityContainer Name="ZMBIS_SEGW_ACT_SRV_Entities" m:IsDefaultEntityContainer="true" sap:supported-formats="atom json xlsx">
+                <EntitySet Name="AktiviteSet" EntityType="ZMBIS_SEGW_ACT_SRV.Aktivite" sap:creatable="false" sap:updatable="false" sap:deletable="false" sap:pageable="false" sap:content-version="1"/>
+            </EntityContainer>
+            <atom:link rel="self" href="http://d21hana21.mbis.com.tr:50000/sap/opu/odata/sap/ZMBIS_SEGW_ACT_SRV/$metadata" xmlns:atom="http://www.w3.org/2005/Atom"/>
+            <atom:link rel="latest-version" href="http://d21hana21.mbis.com.tr:50000/sap/opu/odata/sap/ZMBIS_SEGW_ACT_SRV/$metadata" xmlns:atom="http://www.w3.org/2005/Atom"/>
+        </Schema>
+    </edmx:DataServices>
+</edmx:Edmx>

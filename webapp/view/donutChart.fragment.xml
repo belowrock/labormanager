@@ -1,0 +1,21 @@
+<core:FragmentDefinition xmlns="sap.m"
+    xmlns:core="sap.ui.core"
+    xmlns:f="sap.ui.layout.form"
+    xmlns:l="sap.ui.layout"
+    xmlns:mvc="sap.ui.core.mvc"
+    xmlns:microchart="sap.suite.ui.microchart">
+    <Popover id="chart" title="{i18n>chartDialog}" class="sapUiResponsiveMargin" placement="Bottom">
+        <content>
+            <FlexBox width="20rem" height="8rem" alignItems="Start" justifyContent="SpaceBetween" visible="true">
+                <items>
+                    <microchart:InteractiveDonutChart selectionChanged="onSelectionChanged" displayedSegments="2" selectionEnabled="false">
+                        <microchart:segments>
+                            <microchart:InteractiveDonutChartSegment label="{i18n>donutAll}" value="{inputCatcher>/deployed}" displayedValue="{inputCatcher>/deployedDisplayedVal}" color="Good" />
+                            <microchart:InteractiveDonutChartSegment label="{i18n>donutRejected}" value="{inputCatcher>/rejected}" displayedValue="{inputCatcher>/rejected}" color="Error" />
+                        </microchart:segments>
+                    </microchart:InteractiveDonutChart>
+                </items>
+            </FlexBox>
+        </content>
+    </Popover>
+</core:FragmentDefinition>

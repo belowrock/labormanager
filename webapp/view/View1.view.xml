@@ -1,0 +1,190 @@
+<mvc:View controllerName="com.nagarro.labormanager.controller.View1"
+    xmlns:mvc="sap.ui.core.mvc" displayBlock="true"
+    xmlns:microchart="sap.suite.ui.microchart"
+    xmlns="sap.m"
+    xmlns:core="sap.ui.core"
+    xmlns:f="sap.f"
+    xmlns:svm="sap.ui.comp.smartvariants"
+    xmlns:fb="sap.ui.comp.filterbar"
+    xmlns:layout="sap.ui.layout">
+    <f:DynamicPage id="dynamicPageId" stickySubheaderProvider="iconTabBar" class="sapUiNoContentPadding" toggleHeaderOnTitleClick="{/titleClickable}">
+        <f:title>
+            <f:DynamicPageTitle>
+                <f:heading>
+                    <Title text="{i18n>dynamicPageTitle}" />
+                </f:heading>
+
+                <f:expandedContent>
+                    <ObjectStatus text="{path: '', formatter: '.formatter.formatCurrentDate'}" state="Information" />
+                </f:expandedContent>
+                <f:snappedContent>
+                    <ObjectStatus text="{path: '', formatter: '.formatter.formatCurrentDate'}" state="Information" />
+                </f:snappedContent>
+                <f:snappedTitleOnMobile>
+                    <Title text="{i18n>dynamicPageContent}" />
+                </f:snappedTitleOnMobile>
+                <f:content>
+                    <OverflowToolbar>
+                        <GenericTag text="{i18n>dynamicPageGTWait}" status="Warning" press="onGenericTagPress" design="Full" visible="{inputCatcher>/genericTabVis}" class="sapUiSmallMarginEnd">
+                            <ObjectNumber number="{tableCounts>/waitingCount}" emphasized="false" state="Warning" />
+                        </GenericTag>
+                        <GenericTag text="Karşılanmayan Talepler" status="Information" press="onGenericTagChart" design="StatusIconHidden" tooltip="{i18n>dynamicPageGTStat}" class="sapUiSmallMarginEnd">
+                            <ObjectNumber number="{inputCatcher>/rejectedDisplayedVal}%" emphasized="false" state="{parts:[{path: 'inputCatcher>/rejectedDisplayedVal'}, {path: 'inputCatcher>/iAll'}],formatter: '.formatter.formatPercentage'}" />
+                        </GenericTag>
+                    </OverflowToolbar>
+                </f:content>
+
+                <f:navigationActions>
+                    <Button icon="sap-icon://refresh" type="Transparent" text="{i18n>refreshBut}" tooltip="{i18n>waitingTabBut}" press="onRefreshTab" />
+                </f:navigationActions>
+            </f:DynamicPageTitle>
+        </f:title>
+        <f:header>
+            <f:DynamicPageHeader pinnable="true">
+                <layout:HorizontalLayout allowWrapping="true" class="sapUiSmallMargin">
+                    <layout:VerticalLayout class="sapUiMediumMarginEnd">
+                        <Label text="İsim" />
+                        <Input id="searchBar" value="{inputCatcher>/searchBarInput}" placeholder="Ara..." showSuggestion="true" suggestionItems="{uniqueLogModel>/UniqueLogSet}" width="300px">
+                            <suggestionItems>
+                                <core:Item text="{uniqueLogModel>EmFullName}" />
+                            </suggestionItems>
+                        </Input>
+                    </layout:VerticalLayout>
+                    <layout:VerticalLayout class="sapUiMediumMarginEnd" width="300px">
+                        <Label text="Tarih" visible="{inputCatcher>/dateRangeVisible}"/>
+                        <DateRangeSelection id="datePicker" valueFormat="yyyyMMdd" displayFormat="dd.MM.yyyy" dateValue="{path: 'inputCatcher>/startDateInput'}" secondDateValue="{path: 'inputCatcher>/endDateInput'}" delimiter="-" width="300px" enabled="{inputCatcher>/dateRangeEnabled}" visible="{inputCatcher>/dateRangeVisible}" placeholder="gg.aa.yyyy" />
+                    </layout:VerticalLayout>
+
+                    <layout:VerticalLayout width="350px" />
+                    <layout:VerticalLayout class="sapUiSmallMarginEnd">
+                        <Label />
+                        <Button type="Emphasized" press="onFilter" icon="sap-icon://search" tooltip="Filtre" />
+                    </layout:VerticalLayout>
+                    <layout:VerticalLayout class="sapUiSmallMarginEnd">
+                        <Label />
+                        <Button type="Default" press="onRefreshDat" icon="sap-icon://clear-filter" />
+                    </layout:VerticalLayout>
+                </layout:HorizontalLayout>
+            </f:DynamicPageHeader>
+        </f:header>
+        <f:content>
+            <IconTabBar tabDensityMode="Cozy" headerMode="Standard" selectedKey="waiting" id="iconTabBar" class="sapUiResponsiveContentPadding" select="onChangeTab" expandable="false">
+                <items>
+                    <IconTabFilter showAll="true" count="{tableCounts>/logCount}" text="{i18n>iconTabAll}" key="All">
+                        <Table id="logTab" inset="false" items="{/LogSet}" alternateRowColors="true" noDataText="{i18n>noDataText}" sticky="ColumnHeaders" updateFinished="_updateTableCounts">
+                            <headerToolbar>
+                                <Toolbar >
+                                    <ToolbarSpacer ></ToolbarSpacer>
+                                    <Button icon="sap-icon://excel-attachment" tooltip="{i18n>excelExport}" type="Emphasized" press="onExcelExport"></Button>
+                                </Toolbar>
+                            </headerToolbar>
+                            <columns>
+                                <Column hAlign="Begin" width="auto">
+                                    <Text text="{i18n>usnameCol}" />
+                                </Column>
+                                <Column hAlign="Begin" minScreenWidth="Tablet" demandPopin="true">
+                                    <Text text="{i18n>descCol}" />
+                                </Column>
+                                <Column hAlign="Begin" minScreenWidth="Tablet" demandPopin="true">
+                                    <Text text="{i18n>MngUnameCol}" />
+                                </Column>
+                                <Column hAlign="Begin" minScreenWidth="Tablet" demandPopin="true">
+                                    <Text text="{i18n>MngDescCol}" />
+                                </Column>
+                                <Column hAlign="Center" minScreenWidth="Tablet" demandPopin="true">
+                                    <Text text="{i18n>date}" />
+                                </Column>
+                                <Column hAlign="Center" minScreenWidth="Tablet" demandPopin="true">
+
+                                    <Text text="{i18n>state}" />
+                                </Column>
+                            </columns>
+                            <items>
+                                <ColumnListItem vAlign="Middle" type="Inactive" highlight="{parts: [{path: 'State'}, {path: 'SystemDateStr'}], formatter: '.formatter.formatHighlight'}" press="onUnroll">
+                                    <cells>
+                                        <VBox>
+                                            <ObjectIdentifier title="{EmFullName}" />
+                                            <Text text="Saat: {path: 'SystemTime', formatter: '.formatter.formatTime'}" />
+                                        </VBox>
+                                        <VBox >
+                                            <Text text="{= ${showFullText} ? ${Description} : ${Description}.substring(0, 25)}" />
+                                            <Link text="{= ${showFullText} ? 'Daha az' : 'Daha fazla'}" visible="{path: 'Description', formatter: '.formatter.formatLinkVisibility'}" press="onToggleText"></Link>
+                                        </VBox>
+                                        <VBox>
+                                            <ObjectIdentifier title="{path: 'MngFullName', formatter: '.formatter.formatMngUName'}" />
+                                            <Text text="Saat: {path: 'MngUzeit', formatter: '.formatter.formatTime'}" visible="{= ${State} === true }" />
+                                        </VBox>
+                                        <Text text="{path: 'MngDesc', formatter: '.formatter.formatMngDesc'}" />
+                                        <Text text="{path: 'SystemDate', formatter: '.formatter.formatDate'}" />
+                                        <core:Icon src="{parts: [{path: 'State'}, {path: 'SystemDateStr'}], formatter: '.formatter.formatIconSource'}" color="{parts: [{path: 'State'}, {path: 'SystemDateStr'}], formatter: '.formatter.formatIconColor'}" size="1rem" alt="State Icon" useIconTooltip="false" />
+                                    </cells>
+                                </ColumnListItem>
+                            </items>
+                        </Table>
+                    </IconTabFilter>
+                    <IconTabSeparator />
+                    <IconTabFilter enabled="true" design="Vertical" icon="sap-icon://pending" iconColor="Critical" text="{i18n>iconTabWaiting}" key="waiting">
+                        <MessageStrip text="{i18n>waitingTabMessageStrip}" type="Information" showIcon="true" class="sapUiMediumMarginBottom" />
+                        <Table inset="false" id="waitingTable" growing="true" growingThreshold="170" items="{/ManageDeploymentSet}" alternateRowColors="true" noDataText="{i18n>noDataText}">
+                            <columns>
+                                <Column hAlign="Begin" width="12em">
+                                    <Text text="{i18n>usnameCol}" />
+                                </Column>
+                                <Column hAlign="Center" minScreenWidth="Tablet" demandPopin="true">
+                                    <Text text="{i18n>dateCol}" />
+                                </Column>
+                                <Column hAlign="Center" minScreenWidth="Tablet" demandPopin="true">
+                                    <Text text="{i18n>descCol}" />
+                                </Column>
+                            </columns>
+                            <items>
+                                <ColumnListItem vAlign="Middle" type="Navigation" press="onPress">
+                                    <cells>
+                                        <ObjectIdentifier title="{EmFullName}" />
+                                        <Text text="{SystemTimeStr}" />
+                                        <Text text="{Description}" />
+                                    </cells>
+                                </ColumnListItem>
+                            </items>
+                        </Table>
+                    </IconTabFilter>
+                    <IconTabSeparator icon="sap-icon://open-command-field" visible="{= !${device>/system/phone} }" />
+                    <IconTabFilter design="Vertical" icon="sap-icon://sys-enter" iconColor="Positive" text="{i18n>iconTabDeployed}" key="deployed">
+                        <Table id="deployedTable" inset="false" growingScrollToLoad="true" growing="true" items="{/AssignedSet}" alternateRowColors="true" noDataText="{i18n>noDataText}">
+                            <columns>
+                                <Column hAlign="Begin" width="auto">
+                                    <Text text="{i18n>usnameCol}" />
+                                </Column>
+                                <Column hAlign="Begin" minScreenWidth="Tablet" demandPopin="true">
+                                    <Text text="{i18n>descCol}" />
+                                </Column>
+                                <Column hAlign="Begin" minScreenWidth="Tablet" demandPopin="true">
+                                    <Text text="{i18n>MngUnameCol}" />
+                                </Column>
+                                <Column hAlign="Begin" minScreenWidth="Tablet" demandPopin="true">
+                                    <Text text="{i18n>MngDescCol}" />
+                                </Column>
+                            </columns>
+                            <items>
+                                <ColumnListItem vAlign="Middle" type="Detail" detailPress="onPressEdit">
+                                    <cells>
+                                        <VBox>
+                                            <ObjectIdentifier title="{EmFullName}" />
+                                            <Text text="Saat: {path: 'SystemTime', formatter: '.formatter.formatTime'}" />
+                                        </VBox>
+                                        <Text text="{Description}" />
+                                        <VBox>
+                                            <ObjectIdentifier title="{MngFullName}" />
+                                            <Text text="Saat: {path: 'MngUzeit', formatter: '.formatter.formatTime'}" />
+                                        </VBox>
+                                        <Text text="{MngDesc}" />
+                                    </cells>
+                                </ColumnListItem>
+                            </items>
+                        </Table>
+                    </IconTabFilter>
+                </items>
+            </IconTabBar>
+        </f:content>
+    </f:DynamicPage>
+</mvc:View>

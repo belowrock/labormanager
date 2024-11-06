@@ -1,0 +1,38 @@
+<core:FragmentDefinition xmlns="sap.m"
+    xmlns:core="sap.ui.core"
+    xmlns:f="sap.ui.layout.form"
+    xmlns:l="sap.ui.layout"
+    xmlns:mvc="sap.ui.core.mvc" id="edit">
+
+    <Dialog title="{i18n>editDialog}" class="sapUiResponsiveMargin" draggable="true">
+        <content>
+            <HBox class="sapUiResponsiveMargin">
+                <f:SimpleForm id="simpleForm" layout="ResponsiveGridLayout" columnsL="2" columnsM="2" columnsXL="2" labelSpanXL="3" labelSpanL="3" labelSpanM="3" labelSpanS="12" emptySpanXL="1" emptySpanL="1" emptySpanM="1">
+                    <f:content>
+                        <core:Title text="{editDialogModel>/EmFullName}" />
+
+                        <Label text="{i18n>tarihDialog}" />
+                        <Text text="{editDialogModel>/SystemDateStr}" />
+
+                        <Label text="{i18n>saatDialog}" />
+                        <Text text="{editDialogModel>/SystemTimeStr}"></Text>
+
+                        <Label text="{i18n>descDialog}" />
+                        <Text text="{editDialogModel>/MngDesc}" />
+
+                        <core:Title text="{i18n>secondHeaderDialog}" />
+                        <Label text="{i18n>descDialog}" />
+                        <TextArea value="{inputCatcher>/mngEdit}" maxLength="200"/>
+
+                    </f:content>
+                </f:SimpleForm>
+
+            </HBox>
+        </content>
+
+        <buttons>
+            <Button type="Emphasized" text="{i18n>editDescBut}" press="onEditDesc" />
+            <Button text="{i18n>cancelButton}" press="onCancel" />
+        </buttons>
+    </Dialog>
+</core:FragmentDefinition>

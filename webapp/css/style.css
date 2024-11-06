@@ -1,0 +1,28 @@
+/* Enter your custom styles here */
+/* Custom CSS for SegmentedButtonItem icons */
+
+/* Style for "Bekleyen" item (pending) */
+.sapMSegBBtn[title="Bekleyen"] .sapUiIcon {
+  color: orange; /* Orange color for pending state */
+}
+
+/* Style for the "Görevli" (Success) icon */
+.sapMSegBBtn[title="Görevli"] .sapUiIcon {
+  color: green; /* Green color for success state */
+}
+
+/* Style for the "Boş" (Warning/Error) icon */
+.sapMSegBBtn[title="Boş"] .sapUiIcon {
+  color: red; /* Red color for warning/error state */
+}
+#donutChart .sapSuiteIDCChartSegment:nth-child(1) {
+  fill: #f39c12; /* Custom Orange color for Implementation Phase */
+}
+
+#donutChart .sapSuiteIDCChartSegment:nth-child(2) {
+  fill: #2ecc71; /* Custom Green color for Design Phase */
+}
+
+#donutChart .sapSuiteIDCChartSegment:nth-child(3) {
+  fill: #3498db; /* Custom Blue color for Test Phase */
+}
